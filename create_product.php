@@ -5,7 +5,7 @@ class ControllerCreateProduct extends Controller
     {
         $this->load->model('catalog/product');
 
-        $url = 'https://www.natur.ro/feed-sxml.php';
+        $url = 'https://www.websiteExample.ro/feed-sxml.php';
         $xml = simplexml_load_file($url);
 
         $limit = 20;
