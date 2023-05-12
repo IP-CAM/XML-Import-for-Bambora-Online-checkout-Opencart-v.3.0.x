@@ -10,4 +10,4 @@ You need to also allow opencart to acces this class by doing the next:
 ![image](https://github.com/takegabriel08/opencart-php-import/assets/45741342/5ce0ec1a-ea57-48b1-9cee-bf57661decee)
 
 Find your class and check the checkbox in both Access Permission and Modify permission tabs.
-This will basically create a dumb product with the hardcoded data that I entered.
+By using a xml product feed you can add products programatically.
