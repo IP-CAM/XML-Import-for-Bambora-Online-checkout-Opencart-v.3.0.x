@@ -4,13 +4,63 @@ class ControllerCreateProduct extends Controller
     public function index()
     {
         $this->load->model('catalog/product');
+        $this->load->model('catalog/category');
+        require_once 'image_optimizer.php';
+
+        $categories = $this->model_catalog_category->getCategoriesNameId();
 
         $url = 'https://www.natur.ro/feed-sxml.php';
         $xml = simplexml_load_file($url);
 
-        $limit = 20;
+        $limit = 100;
         $count = 0;
 
+        $uniqueCategories = array();
+
+        // Category foreach
+        foreach ($xml->result as $result) {
+
+            $category = (string)$result->category;
+
+            if (!in_array($category, $uniqueCategories)) {
+                $uniqueCategories[] = $category;
+            }
+        }
+
+        $category = array(
+            'category_description' => array(
+                // You should replace 1 with the actual language_id for the language you want to use.
+                1 => array(
+                    'name' => 'demo',
+                    'description' => '',
+                    'meta_title' => 'demo',
+                    'meta_description' => '',
+                    'meta_keyword' => '',
+                    'tag' => ''
+                )
+            ),
+            'path' => '',
+            'parent_id' => '0',
+            'filter' => '',
+            'category_store' => array(
+                0 => '0'
+            ),
+            'image' => '',
+            'top' => '1',
+            'column' => '2',
+            'sort_order' => '0',
+            'status' => '1',
+            'category_seo_url' => array(
+                0 => array(
+                    1 => ''
+                )
+            ),
+            'category_layout' => array(
+                0 => ''
+            )
+        );
+
+        // Product Foreach
         foreach ($xml->result as $result) {
             if ($count == $limit) {
                 break;
@@ -22,38 +72,7 @@ class ControllerCreateProduct extends Controller
             $imageContent = file_get_contents($imageUrl);
             file_put_contents(DIR_IMAGE . $imagePath, $imageContent);
 
-            $category = array(
-                'category_description' => array(
-                    // You should replace 1 with the actual language_id for the language you want to use.
-                    1 => array(
-                        'name' => 'demo',
-                        'description' => '',
-                        'meta_title' => 'demo',
-                        'meta_description' => '',
-                        'meta_keyword' => '',
-                        'tag' => ''
-                    )
-                ),
-                'path' => '',
-                'parent_id' => '0',
-                'filter' => '',
-                'category_store' => array(
-                    0 => '0'
-                ),
-                'image' => '',
-                'top' => '1',
-                'column' => '2',
-                'sort_order' => '0',
-                'status' => '1',
-                'category_seo_url' => array(
-                    0 => array(
-                        1 => ''
-                    )
-                ),
-                'category_layout' => array(
-                    0 => ''
-                )
-            );
+            optimize_image($imageUrl, $imagePath);
 
             $data = array(
                 'product_description' => array(
@@ -95,7 +114,7 @@ class ControllerCreateProduct extends Controller
                 'manufacturer_id' => "0",
                 'category' => '',
                 'product_category' => array(
-                    0 => '59'
+                    0 => '60'
                 ),
                 'filter' => '',
                 'product_store' => array(
