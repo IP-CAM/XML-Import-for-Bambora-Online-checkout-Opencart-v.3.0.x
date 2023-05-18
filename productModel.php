@@ -1,3 +1,6 @@
+	<?php
+	class ModelCatalogProduct extends Model {	
+
 	public function deleteAllProducts()
 	{
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product");
@@ -22,4 +25,12 @@
 		$this->db->query("DELETE FROM " . DB_PREFIX . "coupon_product");
 
 		$this->cache->delete('product');
+	}
+
+	public function getProductBySKU($sku)
+	{
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "product p WHERE p.sku = '" . (int)$sku . "'");
+
+		return $query->row;
+	}
 	}
