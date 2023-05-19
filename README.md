@@ -11,3 +11,5 @@ You need to also allow opencart to acces this class by doing the next:
 
 Find your class and check the checkbox in both Access Permission and Modify permission tabs.
 By using a xml product feed you can add products programatically.
+
+I have also added some additional functions to help with testing, feel free to try them!
